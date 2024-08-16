@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Contains migrate_examples.module.
+ */
+
+use \Drupal\Core\Routing\RouteMatchInterface;
+
+
+
+/**
+ * Implements hook_help().
+ */
+function migrate_examples_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the migrate_examples module.
+    case 'help.page.migrate_examples':
+      $output = '';
+      $output .= '<h3>' . t('Station Data Importer') . '</h3>';
+      $output .= '<p>' . t('Importer for Stations') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+
+/**
+ * Implement hoo_theme()
+ */
+function migrate_examples_theme() {
+  return [
+    'station_table__header' => [
+      'variables' => [
+        'form' => NULL,
+      ],
+      'template' => 'station-table--header',
+    ],
+    'table__station_table__body' => [
+      'template' => 'table--station-table--body',
+      'base hook' => 'table',
+    ],
+  ];
+
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function migrate_examples_theme_suggestions_table(array $variables) {
+  // Caption used as hint for generating theme suggestions, use title instead.
+  if ($variables['caption'] === "TableBlock") {
+    return ['table__station_table__body'];
+  }
+}
+
+
+/**
+ * Implements hook_migration_plugins_alter().
+ */
+function migrate_examples_migration_plugins_alter(array &$migrations) {
+
+    // Get configuration for source urls. 
+    // Save config path /admin/config/cpb-import/migrate-urls-form
+    $config = \Drupal::config('migrate_examples.settings');
+    $licensees = $config->get('migrate_station_licensees_endpoint');
+    $grantees = $config->get('migrate_station_grantees_endpoint');
+    $transmitters = $config->get('migrate_station_transmitters_endpoint');
+
+    if(empty($licensees) || empty($grantees) || empty($transmitters)) {
+      return;
+    }
+
+    // Set the source urls for the migrations.
+    $definitions['cpb_station_licensee']['source']['urls'] = $licensees;
+    $definitions['cpb_station_grantee']['source']['urls'] = $grantees;
+    $definitions['cpb_station_transmitter']['source']['urls'] = $transmitters;
+
+}

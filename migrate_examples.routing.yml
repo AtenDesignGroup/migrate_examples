@@ -1,0 +1,65 @@
+migrate_examples.pandas:
+  path: '/admin/import/pandas'
+  defaults:
+    _controller: '\Drupal\migrate_examples\Controller\MiTableController::importPandas'
+    _title: 'Import Pandas'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: true
+
+migrate_examples.import_migration:
+  path: '/admin/import/migrate/{migration_id}'
+  defaults:
+    _controller: '\Drupal\migrate_examples\Controller\ImportController::importMigration'
+    _title: 'Import Station Grantees'
+  requirements:
+    _permission: 'access administration pages'
+
+migrate_examples.rollback_migration:
+  path: '/admin/import/rollback/{migration_id}'
+  defaults:
+    _controller: '\Drupal\migrate_examples\Controller\ImportController::rollbackMigration'
+    _title: 'Rollback Station Grantees'
+  requirements:
+    _permission: 'access administration pages'
+
+migrate_examples.import_row:
+  path: '/admin/import/migrate/{row_id}/{migration_id}'
+  defaults:
+    _controller: '\Drupal\migrate_examples\Controller\ImportController::importRow'
+    _title: 'Import Station Row'
+  options:
+    parameters:
+      row_id:
+        type: integer
+  requirements:
+    _permission: 'access administration pages'
+
+migrate_examples.migrate_urls_form:
+  path: '/admin/config/import/migrate-urls-form'
+  defaults:
+    _form: '\Drupal\migrate_examples\Form\MigrateUrlsForm'
+    _title: 'Station Import Form'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: true
+
+migrate_examples.rollback_migrate_row_form:
+  path: '/admin/config/import/rollback-migrate-row-form'
+  defaults:
+    _form: '\Drupal\migrate_examples\Form\RollbackMigrateRowForm'
+    _title: 'Station Import Form'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: true
+  
+migrate_examples.main:
+  path: '/admin/config/migrate_examples'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Add API Endpoints to Import'
+  requirements:
+    _permission: 'access administration pages'

@@ -1,0 +1,45 @@
+
+id: pandas
+group: panda_import
+label: 'Panda migration importer'
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+  urls: 'https://abc-pandas.net/pandas'
+  item_selector: '/'
+  fields:
+    -
+      name: 'id'
+      label: 'ID'
+      selector: 'granteeId'
+    -
+      name: 'panda_name'
+      label: 'Panda Name'
+      selector: 'pandaName'
+
+  ids:
+    id:
+      type: string
+
+process:
+  # Migrate field from API endpoint.
+  title: panda_name
+
+  # Migrate field from D7 database for initial migration.
+  field_food: 
+    - 
+      plugin: panda_field
+      source: 
+        panda_id: 'panda_name'
+  
+destination:
+  plugin: 'entity:node'
+  default_bundle: panda
+  overwrite_properties:
+    - title
+    - field_food
+
+migration_dependencies:
+  required: {  }
+  optional: {  }
