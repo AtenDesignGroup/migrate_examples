@@ -25,7 +25,6 @@ source:
 process:
   # Migrate field from API endpoint.
   title: station_name
-
   # Migrate field from D7 database for initial migration.
   field_station: 
     - 

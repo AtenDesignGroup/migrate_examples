@@ -32,7 +32,7 @@ class ImportController extends ControllerBase {
       if(!$migration) {
         $message = $this->t('Migration id is invalid.');
         \Drupal::messenger()->addMessage($message);
-        \Drupal::logger('pandas_import')->notice($message);
+        \Drupal::logger('stations_import')->notice($message);
         return new RedirectResponse($referer);
       }
       $options = [
@@ -45,10 +45,10 @@ class ImportController extends ControllerBase {
       if($import == 0) {
         $message = $this->t('No row found to import.');
         \Drupal::messenger()->addMessage($message);
-        \Drupal::logger('pandas_import')->notice($message);
+        \Drupal::logger('stations_import')->notice($message);
         return new RedirectResponse($referer);
       }
-      // Create a drupal query to query table migrate_map_pandas_import
+      // Create a drupal query to query table migrate_map_stations_import
       $query = \Drupal::database()->select('migrate_map_' . $migration_id, 'm');
       $query->fields('m', ['sourceid1', 'destid1']);
       $query->condition('m.sourceid1', $row_id);
@@ -56,7 +56,7 @@ class ImportController extends ControllerBase {
       if(empty($result)) {
         $message = $this->t('No row found to import.');
         \Drupal::messenger()->addMessage($message);
-        \Drupal::logger('pandas_import')->notice($message);
+        \Drupal::logger('stations_import')->notice($message);
         return new RedirectResponse($referer);
       }
       $result = reset($result);
@@ -69,7 +69,7 @@ class ImportController extends ControllerBase {
         '@rows_updated' => $import_link,
       ]);
       \Drupal::messenger()->addMessage($message);
-      \Drupal::logger('pandas_import')->notice($message);
+      \Drupal::logger('stations_import')->notice($message);
       return new RedirectResponse($referer);      
     }
 
@@ -83,7 +83,7 @@ class ImportController extends ControllerBase {
       if(!$migration) {
         $message = $this->t('Migration id is invalid.');
         \Drupal::messenger()->addMessage($message);
-        \Drupal::logger('pandas_import')->notice($message);
+        \Drupal::logger('stations_import')->notice($message);
         return new RedirectResponse($referer);
       }
       $executable = new MigrateExecutable($migration, new MigrateMessage());
@@ -91,29 +91,26 @@ class ImportController extends ControllerBase {
       // If the migration was successful, return a success message.
       $message = $this->t('Rolled back all rows.');
       \Drupal::messenger()->addMessage($message);
-      \Drupal::logger('pandas_import')->notice($message);
+      \Drupal::logger('stations_import')->notice($message);
       return new RedirectResponse($referer);
     }
 
     public function importMigration($migration_id) {
-      // // Get the migration plugin manager.
       $migration_plugin_manager = \Drupal::service('plugin.manager.migration');
       $migration = $migration_plugin_manager->createInstance($migration_id);;
-      // Redirect to the previous page.
       $request = \Drupal::request();
       $referer = $request->headers->get('referer');       
       if(!$migration) {
         $message = $this->t('Migration id is invalid.');
         \Drupal::messenger()->addMessage($message);
-        \Drupal::logger('pandas_import')->notice($message);
+        \Drupal::logger('stations_import')->notice($message);
         return new RedirectResponse($referer);
       }
       $executable = new MigrateExecutable($migration, new MigrateMessage());
       $executable->import();
-      // If the migration was successful, return a success message.
       $message = $this->t('Imported all rows.');
       \Drupal::messenger()->addMessage($message);
-      \Drupal::logger('pandas_import')->notice($message);
+      \Drupal::logger('stations_import')->notice($message);
       return new RedirectResponse($referer);
     }
 }

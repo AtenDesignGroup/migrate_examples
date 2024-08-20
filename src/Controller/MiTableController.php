@@ -76,28 +76,21 @@ class MiTableController extends ControllerBase {
       if(count($search_rows) > 0) {
         $rows = $search_rows;
       }
-
-      $header_row = [
-        'ID',
-        'Title',
-      ];
-
       if(count($import_data) < 1) {
         $build['table'] = [
           '#markup' => $this->t('No data found.'),
         ];
         return $build;
       }  
-
-      // Create table with data.
+      $header_row = [
+        'ID',
+        'Title',
+      ];
       $build['table'] = $this->createTable($import_data, $migration_id, $header_row);
-      // Create the import all button.
       $build['import_all'] = $this->createMigrationButton('stations_import', 'migrate_examples.import_migration', 'Import All');
-      // Pager was added with createTable function.
       $build['pager'] = [
         '#type' => 'pager',
       ];
-      
       return $build;
 
     }
