@@ -1,12 +1,12 @@
 
-id: pandas
-group: panda_import
-label: 'Panda migration importer'
+id: stations_import
+group: stations
+label: 'stations migration importer'
 source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: json
-  urls: 'https://abc-pandas.net/pandas'
+  urls: 'https://abc-stations.net/stationss'
   item_selector: '/'
   fields:
     -
@@ -14,9 +14,9 @@ source:
       label: 'ID'
       selector: 'granteeId'
     -
-      name: 'panda_name'
-      label: 'Panda Name'
-      selector: 'pandaName'
+      name: 'station_name'
+      label: 'station Name'
+      selector: 'StationName'
 
   ids:
     id:
@@ -24,21 +24,21 @@ source:
 
 process:
   # Migrate field from API endpoint.
-  title: panda_name
+  title: station_name
 
   # Migrate field from D7 database for initial migration.
-  field_food: 
+  field_station: 
     - 
-      plugin: panda_field
+      plugin: station_field
       source: 
-        panda_id: 'panda_name'
+        stations_id: 'station_name'
   
 destination:
   plugin: 'entity:node'
-  default_bundle: panda
+  default_bundle: stations
   overwrite_properties:
     - title
-    - field_food
+    - field_station
 
 migration_dependencies:
   required: {  }

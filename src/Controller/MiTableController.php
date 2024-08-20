@@ -22,17 +22,17 @@ class MiTableController extends ControllerBase {
 
 
     /**
-     * Proof of Concept for Import pandas from the API.
+     * Proof of Concept for Import stationss from the API.
      * @return array
      */
-    public function importPandas() {
+    public function importstationss() {
 
-      $uri = 'https://abc-pandas.net/pandas';
+      $uri = 'https://abc-stations.net/stations';
 
-      $migration_id = 'pandas';
+      $migration_id = 'stations_import';
           // Get configuration from ImporForm.
       $config = \Drupal::config('migrate_examples.settings');
-      $import_data = $config->get('pandas_api_endpoint');
+      $import_data = $config->get('stationss_api_endpoint');
         
       // if grantees is null return to page with message to configure api url.
       if($import_data == null) {
@@ -92,7 +92,7 @@ class MiTableController extends ControllerBase {
       // Create table with data.
       $build['table'] = $this->createTable($import_data, $migration_id, $header_row);
       // Create the import all button.
-      $build['import_all'] = $this->createMigrationButton('migrate_examples.import_migration', 'Import All');
+      $build['import_all'] = $this->createMigrationButton('stations_import', 'migrate_examples.import_migration', 'Import All');
       // Pager was added with createTable function.
       $build['pager'] = [
         '#type' => 'pager',
@@ -106,7 +106,7 @@ class MiTableController extends ControllerBase {
       $total = count($rows);
       $limit = 10;
       $build[] = [
-        '#theme' => 'pandas_table__header',
+        '#theme' => 'stationss_table__header',
       ];
       $data = '';
       $pager_manager = \Drupal::service('pager.manager');

@@ -1,8 +1,8 @@
-migrate_examples.pandas:
-  path: '/admin/import/pandas'
+migrate_examples.stations:
+  path: '/admin/import/stations'
   defaults:
-    _controller: '\Drupal\migrate_examples\Controller\MiTableController::importPandas'
-    _title: 'Import Pandas'
+    _controller: '\Drupal\migrate_examples\Controller\MiTableController::importstations'
+    _title: 'Import Stations'
   requirements:
     _permission: 'administer site configuration'
   options:
@@ -12,7 +12,11 @@ migrate_examples.import_migration:
   path: '/admin/import/migrate/{migration_id}'
   defaults:
     _controller: '\Drupal\migrate_examples\Controller\ImportController::importMigration'
-    _title: 'Import Station Grantees'
+    _title: 'Import Stations'
+  options:
+    parameters:
+      migration_id:
+        type: integer
   requirements:
     _permission: 'access administration pages'
 
